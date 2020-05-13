@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Roboto, Helvetica, sans-serif;
+}
+.App {
+  text-align: center;
+  background-color: rgb(34, 34, 34);
+  height: 100vh;
+  color: rgb(250, 250, 250);
+}
+.App-title {
+  font-size: 100px;
+  padding: 25px 0;
+}
+
+button {
+  background-color: #202b33;
+  border: solid 1px transparent;
+  border-radius: 4px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0b5583;
+}
