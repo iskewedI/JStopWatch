@@ -12,6 +12,8 @@ class Countdown extends Component {
     timerTime: 990
   };
   startTimer = () => {
+    if(this.state.timerTime === 990) return;
+
     console.time("timer");
     this.setState({
       timerOn: true,
@@ -26,16 +28,14 @@ class Countdown extends Component {
         });
       }else if(this.state.auto === true && this.state.timerStart > 0){
         this.setState({
-            timerTime: this.state.timerStart + 990
+            timerTime: this.state.timerStart
         });
         console.log("Tiempo: " + console.timeEnd("timer"));
         console.time("timer");
       } else {
         clearInterval(this.timer);
-        this.setState({ timerOn: false, timerTime: 0 });
+        this.setState({ timerOn: false, timerTime: 990 });
         console.timeEnd("timer");
-
-        console.log("Countdown ended");
       }
     }, 10);
   };
@@ -54,7 +54,7 @@ class Countdown extends Component {
       this.setState({
           timerOn: false,
           timerStart: 0,
-          timerTime: 0
+          timerTime: 990
       })
   }
   adjustTimer = (input) => {
@@ -109,7 +109,7 @@ class Countdown extends Component {
                 <button className="controllerButton" onClick={this.stopTimer}>Stop</button>
         )}
         {timerOn === false &&
-            (timerStart !== 0 && timerStart !== timerTime && timerTime !== 0) && (
+            (timerStart !== 0 && timerStart !== timerTime && timerTime !== 990) && (
                 <button className="controllerButton" onClick={this.startTimer}>Resume</button>
         )}
         {(timerOn === false || (auto === false && timerTime <= 0) ) &&
