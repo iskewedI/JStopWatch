@@ -3,10 +3,9 @@ import ReactToggle from "react-toggle";
 import "react-toggle/style.css";
 import "../styles/components.css";
 
-
 class Toggle extends Component {
     render(){
-        return(
+        return( 
             <ReactToggle 
             className={this.props.className}
             onChange={this.props.onChange}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../styles/components.css";
 
+import {stopTimer, restartTimer} from '../helper/timerFunctions.js';
 class Stopwatch extends Component {
   state = {
     timerOn: false,
@@ -18,18 +19,6 @@ class Stopwatch extends Component {
         timerTime: Date.now () - this.state.timerStart
       });
     }, 10);
-  };
-  stopTimer = () => {
-    this.setState({
-      timerOn: false
-    });
-    clearInterval(this.timer);
-  }
-  resetTimer = () => {
-    this.setState({
-      timerStart: 0,
-      timerTime: 0
-    });
   };
 
   render() {
@@ -50,13 +39,13 @@ class Stopwatch extends Component {
         <button onClick={this.startTimer}>Start</button>
         )}
         {this.state.timerOn === true && (
-          <button onClick={this.stopTimer}>Stop</button>
+          <button onClick={stopTimer.bind(this)}>Stop</button>
         )}
         {this.state.timerOn === false && this.state.timerTime > 0 && (
           <button onClick={this.startTimer}>Resume</button>
         )}
         {this.state.timerOn === false && this.state.timerTime > 0 && (
-          <button onClick={this.resetTimer}>Reset</button>
+          <button onClick={restartTimer.bind(this, 0)}>Restart</button>
         )}
       </div>
     );

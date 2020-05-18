@@ -1,15 +1,38 @@
 import React, { Component } from "react";
 import "../styles/components.css";
+
 import Toggle from './Toggle.js';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import {stopTimer, restartTimer} from '../helper/timerFunctions.js';
 
 import {autoIcon, manualIcon, arrowUp, twoArrowUp, arrowDown, twoArrowDown} from './Icons.js';
+
+import audioController from '../helper/audioController';
+import {sounds} from '../helper/interfaces';
+
+import VolumeController from './VolumeController.js';
 
 class Countdown extends Component {
   state = {
     timerOn: false,
     auto: false,
     timerStart: 0,
-    timerTime: 990
+    timerTime: 990,
+    soundSelected: "twoTick-clock-sound",
+    soundVolume: 50
+  };
+
+  audioController = new audioController();
+  playSound = () => {
+    if(!this.audioController.hasSound(this.state.soundSelected)){
+      this.audioController.addSound(this.state.soundSelected, this.state.soundVolume);
+    }
+    this.audioController.play(this.state.soundSelected);
+  };
+  changeVolume = (event, newVolume) => {
+    this.setState({soundVolume: newVolume});
+    this.audioController.setVolume(this.state.soundSelected, newVolume);
   };
   startTimer = () => {
     if(this.state.timerTime === 990) return;
@@ -27,36 +50,26 @@ class Countdown extends Component {
           timerTime: newTime
         });
       }else if(this.state.auto === true && this.state.timerStart > 0){
+        this.playSound();
         this.setState({
             timerTime: this.state.timerStart
         });
         console.log("Tiempo: " + console.timeEnd("timer"));
         console.time("timer");
       } else {
+        this.playSound();
         clearInterval(this.timer);
         this.setState({ timerOn: false, timerTime: 990 });
         console.timeEnd("timer");
       }
     }, 10);
   };
-  stopTimer = () => {
-    clearInterval(this.timer);
-    this.setState({ timerOn: false });
-  };
-  resetTimer = () => {
-    if (this.state.timerOn === false) {
+  renewTimer = () => {
       this.setState({
         timerTime: this.state.timerStart
       });
-    }
   };
-  restartTimer = () => {
-      this.setState({
-          timerOn: false,
-          timerStart: 0,
-          timerTime: 990
-      })
-  }
+  
   adjustTimer = (input) => {
     const { timerTime, timerOn } = this.state;
     const max = 216000000;
@@ -86,19 +99,22 @@ class Countdown extends Component {
     return (
       <div className="Countdown">
         <div className="Countdown-header">Countdown</div>
-        <Toggle onChange={this.toggleAuto} icons={[autoIcon, manualIcon]} className="toggleAuto"/>
-
-        <div className="Countdown-display">        
-        <button onClick={() => this.adjustTimer("incMinutes")}>{twoArrowUp}</button>
-        <button onClick={() => this.adjustTimer("incSeconds")}>{arrowUp}</button>
         
+        <div>
+          <label>Manual</label>
+          <Toggle onChange={this.toggleAuto} icons={[autoIcon, manualIcon]} className="toggleAuto" />
+          <label>Auto</label>
+        </div>
 
+        <div className="Countdown-display">
+        <button onClick={() => this.adjustTimer("incMinutes")}>{twoArrowUp}</button>
+          <button onClick={() => this.adjustTimer("incSeconds")}>{arrowUp}</button>
+        
         <div className="Countdown-time">
              {minutes} : {seconds}
         </div>
-
-        <button onClick={() => this.adjustTimer("decMinutes")}>{twoArrowDown}</button>
-        <button onClick={() => this.adjustTimer("decSeconds")}>{arrowDown}</button>
+          <button onClick={() => this.adjustTimer("decMinutes")}>{twoArrowDown}</button>
+          <button onClick={() => this.adjustTimer("decSeconds")}>{arrowDown}</button>
         </div>
        
         {timerOn === false &&
@@ -106,7 +122,7 @@ class Countdown extends Component {
                 <button className="controllerButton" onClick={this.startTimer}>Start</button>
         )}
         {timerOn === true && timerTime >= 0 && (
-                <button className="controllerButton" onClick={this.stopTimer}>Stop</button>
+                <button className="controllerButton" onClick={stopTimer.bind(this)}>Stop</button>
         )}
         {timerOn === false &&
             (timerStart !== 0 && timerStart !== timerTime && timerTime !== 990) && (
@@ -114,9 +130,10 @@ class Countdown extends Component {
         )}
         {(timerOn === false || (auto === false && timerTime <= 0) ) &&
             (timerStart !== timerTime && timerStart > 0) && 
-                [<button className="controllerButton" key={0} onClick={this.resetTimer}>Reset</button>,
-                <button  className="controllerButton" key={1} onClick={this.restartTimer}>Restart</button>]
+                [<button className="controllerButton" key={0} onClick={this.renewTimer}>Renew</button>,
+                <button  className="controllerButton" key={1} onClick={restartTimer.bind(this, 990)}>Restart</button>]
         }
+        <VolumeController onChangeVolume={this.changeVolume}/>
       </div>
     );
   }
