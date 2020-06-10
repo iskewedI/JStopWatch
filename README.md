@@ -1,10 +1,10 @@
-This project was created with React & Bootstrap
+Welcome! Take a minute to learn about this helpful tool
 
-## Available Scripts
+## Use it the way you want
 
-In the project directory, you can run:
+One of the main goal of this project is to create a flexible and adaptable, but simple tool.
 
-### `yarn start`
+### A highly customizable Stopwatch & Countdown
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

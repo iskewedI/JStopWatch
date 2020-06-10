@@ -4,11 +4,11 @@ import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles( () => ({
     root: {
-      height:75,
+      height:100,
       width:20,
-      margin: 0
+      margin: '10px 0'
     },
   }));
 
@@ -21,24 +21,23 @@ const ModyfiedSlider = withStyles({
       width: 13,
       backgroundColor: '#fff',
       border: '2px solid grey',
-      marginTop: -8,
+      marginTop: -6,
       marginLeft: -12,
       '&:focus, &:hover, &$active': {
         boxShadow: 'inherit',
       },
     },
     track: {
-      height: 300,
+      height: 250,
       borderRadius: 4,
       color:'#afafaf'
     },
     rail: {
-      height: 300,
+      height: 250,
       borderRadius: 4,
       color:'black'
       
     },
-
   })(Slider);
   const marks = [
     {
@@ -56,7 +55,7 @@ export default function  VolumeController(props){
     return (
         <div className={classes.root}>
             <ModyfiedSlider orientation="vertical"
-                defaultValue={40}
+                value={props.volume}
                 aria-labelledby="vertical-slider"
                 marks={marks} 
                 onChange={props.onChangeVolume}/>

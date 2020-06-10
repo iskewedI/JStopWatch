@@ -8,32 +8,16 @@ import {stopTimer, restartTimer} from '../helper/timerFunctions.js';
 
 import {autoIcon, manualIcon, arrowUp, twoArrowUp, arrowDown, twoArrowDown} from './Icons.js';
 
-import audioController from '../helper/audioController';
-import {sounds} from '../helper/interfaces';
-
-import VolumeController from './VolumeController.js';
-
 class Countdown extends Component {
   state = {
     timerOn: false,
     auto: false,
     timerStart: 0,
-    timerTime: 990,
-    soundSelected: "twoTick-clock-sound",
-    soundVolume: 50
+    timerTime: 990
   };
 
-  audioController = new audioController();
-  playSound = () => {
-    if(!this.audioController.hasSound(this.state.soundSelected)){
-      this.audioController.addSound(this.state.soundSelected, this.state.soundVolume);
-    }
-    this.audioController.play(this.state.soundSelected);
-  };
-  changeVolume = (event, newVolume) => {
-    this.setState({soundVolume: newVolume});
-    this.audioController.setVolume(this.state.soundSelected, newVolume);
-  };
+  playSound = this.props.audioSettings[0];
+
   startTimer = () => {
     if(this.state.timerTime === 990) return;
 
@@ -103,7 +87,7 @@ class Countdown extends Component {
         <div>
           <label>Manual</label>
           <Toggle onChange={this.toggleAuto} icons={[autoIcon, manualIcon]} className="toggleAuto" />
-          <label>Auto</label>
+          <label>Loop</label>
         </div>
 
         <div className="Countdown-display">
@@ -133,7 +117,6 @@ class Countdown extends Component {
                 [<button className="controllerButton" key={0} onClick={this.renewTimer}>Renew</button>,
                 <button  className="controllerButton" key={1} onClick={restartTimer.bind(this, 990)}>Restart</button>]
         }
-        <VolumeController onChangeVolume={this.changeVolume}/>
       </div>
     );
   }

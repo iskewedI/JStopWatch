@@ -1,6 +1,8 @@
-import twoTick from '../audio/twoTick-clock-sound.wav';
+import twoTickClockString from '../audio/twoTick-clock-string.wav';
+import twoTickClockBassDry from '../audio/twoTick-clock-bassDry.wav';
 
-export var sounds = new Map([
-    {"twoTick-clock-sound":twoTick}
+export const sounds = new Map([
+    ["twoTick-clock-sound", twoTickClockString],
+    ["twoTick-clock-bassDry", twoTickClockBassDry]
 ]);
 

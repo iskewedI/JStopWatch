@@ -76,3 +76,6 @@ margin: 5px 0;
 .controllerButton {
   font-size: 23px;
 }
+.openPanelButton {
+  background-color: rgb(104, 104, 104);
+}
