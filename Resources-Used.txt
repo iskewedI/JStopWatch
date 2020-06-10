@@ -1,0 +1,4 @@
+Sounds: (Some tick sounds are a little cutout of this sounds)
+    InspectorJ: Sewer Soundscape, A.wav | URL: freesound.org/people/InspectorJ/sounds/342566/ {
+        twoTick-clock-bassDry.wav,
+    }
